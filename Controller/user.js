@@ -47,22 +47,37 @@ const addUsers = async (req, res) => {
         jwt.sign(addUser,  secretkey, {expiresIn: '500s'}, (error, token)=>{
             console.log(token)
         })
-        return res.status(200).json(addUser)
-
+        return res.status(200).json(addUser);
         // handle error
     } catch (error) {
         return res.status(404).send(error.message);
     }
 }
 
+const deleteUser  = async (req, res)=> {
+    res.status(200).send("This is function for delete the user data...")
+}
 
 const updateUsers = async (req, res) => {
-    res.send("This is function for update data..!")
+    const { id } = req.params;
+    try{
+        let myData = await UserModel.findByIdAndUpdate(id, req.body, { new: true });
+        return res.status(200).json({message:"Data updated successfuly", myData});
 
+    }catch(error){
+        console.log(error.message);  
+    }
 }
-const deleteUsers = async (req, res) => {
-    res.send("This is function for delete data..!")
 
+const deleteUsers = async (req, res) => {
+    const { id } = req.params;
+    try{
+        await UserModel.findByIdAndDelete(id)
+        return res.status(200).json("Data deleted Successfully");
+
+    }catch(error){
+        console.log(error.message);  
+    }
 }
 
 

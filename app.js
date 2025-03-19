@@ -5,6 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const { ConnectToDataBase } = require('./Database/MongoDB');
 const router = require('./Router/router');
+const product = require('./Router/product');
 
 const app = express();
 
@@ -15,6 +16,7 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());  
 app.use(express.json());
 app.use("/api/user", router);
+app.use("/api/product", product)
 app.use(bodyParser.json());
 
 ConnectToDataBase(MONGO_URL).then(()=>{ console.log("Database connected..!")})
